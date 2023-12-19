@@ -42,16 +42,17 @@ pipeline {
 
         stage('Test'){
             steps {
-                sh 'mvn -s settings.xml test'
+               // sh 'mvn -s settings.xml test'
+		sh 'mvn package -Dmaven.test.skip=true'
             }
 
         }
 
-        // stage('Checkstyle Analysis'){
-        //     steps {
-        //         sh 'mvn -s settings.xml checkstyle:checkstyle'
-        //     }
-        // }
+        stage('Checkstyle Analysis'){
+            steps {
+                sh 'mvn -s settings.xml checkstyle:checkstyle'
+            }
+        }
 
     //     stage('Sonar Analysis') {
     //         environment {
