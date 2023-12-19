@@ -12,19 +12,19 @@ pipeline {
 	    //jdk "OracleJDK8"
     }
 
-    //  environment {
-    //     NEXUS_USER = 'admin'
-    //     NEXUS_PASSWORD = 'admin123'
-    //     SNAP_REPO = 'vprofile-snapshot'
-    //     RELEASE_REPO = 'vprofile-release'
-    //     CENTRAL_REPO = 'vprofile-central-repo'
-    //     NEXUS_GRP_REPO = 'vprofile-grp-repo'
-    //     NEXUS_IP = '192.168.33.13'
-    //     NEXUS_PORT = '8081'
-    //     NEXUS_LOGIN = "nexuslogin"
-    //     SONARSERVER = 'sonarserver'
-    //     SONARSCANNER = 'sonarscanner'
-    // }
+     environment {
+        NEXUS_USER = 'admin'
+        NEXUS_PASSWORD = 'admin123'
+        SNAP_REPO = 'vprofile-snapshot'
+        RELEASE_REPO = 'vprofile-release'
+        CENTRAL_REPO = 'vprofile-central-repo'
+        NEXUS_GRP_REPO = 'vprofile-grp-repo'
+        NEXUS_IP = '192.168.33.13'
+        NEXUS_PORT = '8081'
+        NEXUS_LOGIN = "nexuslogin"
+        SONARSERVER = 'sonarserver'
+        SONARSCANNER = 'sonarscanner'
+    }
 
     stages {
         stage('Build'){
@@ -70,32 +70,32 @@ pipeline {
     //         }
     //     }
 
-    //     stage("Upload Artifact"){
-    //         steps{
-    //             nexusArtifactUploader(
-    //               nexusVersion: 'nexus3',
-    //               protocol: 'http',
-    //               nexusUrl: "${NEXUS_IP}:${NEXUS_PORT}",
-    //               groupId: 'Dev',
-    //               version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-    //               repository: "${RELEASE_REPO}",
-    //               credentialsId: "${NEXUS_LOGIN}",
-    //               artifacts: [
-    //                 [artifactId: 'vproapp',
-    //                  classifier: '',
-    //                  file: 'target/vprofile-v2.war',
-    //                  type: 'war']
-    //               ]
-    //             )
-    //         }
-    //     }
-    // }
-    //     post {
-    //     always {
-    //         echo 'Slack Notifications.'
-    //         slackSend channel: '#cicd-pipeline',
-    //             color: COLOR_MAP[currentBuild.currentResult],
-    //             message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
-    //     }
+        stage("Upload Artifact"){
+            steps{
+                nexusArtifactUploader(
+                  nexusVersion: 'nexus3',
+                  protocol: 'http',
+                  nexusUrl: "${NEXUS_IP}:${NEXUS_PORT}",
+                  groupId: 'Dev',
+                  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                  repository: "${RELEASE_REPO}",
+                  credentialsId: "${NEXUS_LOGIN}",
+                  artifacts: [
+                    [artifactId: 'vproapp',
+                     classifier: '',
+                     file: 'target/vprofile-v2.war',
+                     type: 'war']
+                  ]
+                )
+            }
+        }
+    }
+        post {
+        always {
+            echo 'Slack Notifications.'
+            slackSend channel: '#cicd-pipeline',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+        }
     }
 }
