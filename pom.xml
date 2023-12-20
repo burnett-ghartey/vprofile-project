@@ -209,4 +209,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</project>
+	</reporting>
+</project>
